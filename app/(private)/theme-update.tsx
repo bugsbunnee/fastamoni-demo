@@ -4,43 +4,21 @@ import Constants from 'expo-constants';
 import { FlatList, StyleSheet, View } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { Icon } from '@/utils/models';
+import { ThemeOption } from '@/utils/models';
 
 import BackButton from '@/components/themed/BackButton';
 import Text from '@/components/themed/Text';
-
-import useColor from '@/hooks/useColor';
 
 import { useAppSelector } from '@/store/configureStore';
 import { getUtils, setTheme } from '@/store/utils';
 import { useAppDispatch } from '../../store/configureStore';
 
-interface ThemeOption {
-	mode: 'light' | 'dark';
-	icon: Icon;
-	title: string;
-	subtitle: string;
-}
+import useColor from '@/hooks/useColor';
 
-const ThemeSelect: React.FC = () => {
+const ThemeUpdateScreen: React.FC = () => {
 	const utils = useAppSelector(getUtils);
 	const dispatch = useAppDispatch();
 	const color = useColor();
-
-	const options: ThemeOption[] = [
-		{
-			mode: 'light',
-			icon: 'white-balance-sunny',
-			title: 'Light mode',
-			subtitle: 'Easy on the eyes',
-		},
-		{
-			mode: 'dark',
-			icon: 'moon-waning-gibbous',
-			title: 'Dark mode',
-			subtitle: 'Beautiful Illusion',
-		},
-	];
 
 	const handleClick = (item: ThemeOption) => {
 		dispatch(setTheme(item.mode));
@@ -57,7 +35,7 @@ const ThemeSelect: React.FC = () => {
 
 				<FlatList
 					data={options}
-					keyExtractor={(item) => item.mode}
+					keyExtractor={(item) => item.title}
 					ItemSeparatorComponent={() => <View style={styles.separator} />}
 					renderItem={({ item }) => (
 						<TouchableOpacity
@@ -94,6 +72,21 @@ const ThemeSelect: React.FC = () => {
 	);
 };
 
+const options: ThemeOption[] = [
+	{
+		mode: 'light',
+		icon: 'white-balance-sunny',
+		title: 'Light mode',
+		subtitle: 'Easy on the eyes',
+	},
+	{
+		mode: 'dark',
+		icon: 'moon-waning-gibbous',
+		title: 'Dark mode',
+		subtitle: 'Beautiful Illusion',
+	},
+];
+
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
@@ -128,4 +121,4 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default ThemeSelect;
+export default ThemeUpdateScreen;

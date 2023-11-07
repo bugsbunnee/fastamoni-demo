@@ -5,7 +5,7 @@ import { FlatList, StyleSheet, View } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { router } from 'expo-router';
-import { Icon } from '@/utils/models';
+import { ThemeOption } from '@/utils/models';
 import { getUtils, setTheme } from '@/store/utils';
 import { useAppDispatch, useAppSelector } from '@/store/configureStore';
 
@@ -14,32 +14,10 @@ import Text from '@/components/themed/Text';
 
 import useColor from '@/hooks/useColor';
 
-interface ThemeOption {
-	mode: 'light' | 'dark';
-	icon: Icon;
-	title: string;
-	subtitle: string;
-}
-
-const ThemeSelect: React.FC = () => {
+const ThemeSelectScreen: React.FC = () => {
 	const color = useColor();
 	const dispatch = useAppDispatch();
 	const utils = useAppSelector(getUtils);
-
-	const options: ThemeOption[] = [
-		{
-			mode: 'light',
-			icon: 'white-balance-sunny',
-			title: 'Light mode',
-			subtitle: 'Easy on the eyes',
-		},
-		{
-			mode: 'dark',
-			icon: 'moon-waning-gibbous',
-			title: 'Dark mode',
-			subtitle: 'Beautiful Illusion',
-		},
-	];
 
 	const handleClick = (item: ThemeOption) => {
 		dispatch(setTheme(item.mode));
@@ -52,7 +30,7 @@ const ThemeSelect: React.FC = () => {
 
 				<FlatList
 					data={options}
-					keyExtractor={(item) => item.mode}
+					keyExtractor={(item) => item.title}
 					ItemSeparatorComponent={() => <View style={styles.separator} />}
 					renderItem={({ item }) => (
 						<TouchableOpacity
@@ -93,6 +71,21 @@ const ThemeSelect: React.FC = () => {
 	);
 };
 
+const options: ThemeOption[] = [
+	{
+		mode: 'light',
+		icon: 'white-balance-sunny',
+		title: 'Light mode',
+		subtitle: 'Easy on the eyes',
+	},
+	{
+		mode: 'dark',
+		icon: 'moon-waning-gibbous',
+		title: 'Dark mode',
+		subtitle: 'Beautiful Illusion',
+	},
+];
+
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
@@ -125,4 +118,4 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default ThemeSelect;
+export default ThemeSelectScreen;
