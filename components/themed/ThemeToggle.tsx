@@ -1,6 +1,5 @@
 import React from 'react';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-
 import { StyleSheet, TouchableOpacity } from 'react-native';
 
 import { useAppDispatch, useAppSelector } from '@/store/configureStore';

@@ -48,7 +48,6 @@ const RootLayoutNavigation = () => {
 	};
 
 	useEffect(() => {
-		// Map to local variable for quick reaction time
 		dispatch(setTheme(colorScheme));
 	}, [colorScheme]);
 

@@ -5,10 +5,7 @@ import { getUtils } from '@/store/utils';
 
 const useColor = () => {
 	const utils = useAppSelector(getUtils);
-
-	if (utils.theme) {
-		return Colors[utils.theme];
-	}
+	if (utils.theme) return Colors[utils.theme];
 
 	return Colors.light;
 };

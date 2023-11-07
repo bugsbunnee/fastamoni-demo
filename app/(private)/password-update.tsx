@@ -55,9 +55,9 @@ const PasswordUpdateScreen: React.FC = () => {
 
 	const handleSubmit = async (values: PasswordFormValues) => {
 		Keyboard.dismiss();
-		const payload = { ...values, userId: auth.user?.id as number };
 
 		try {
+			const payload = { ...values, userId: auth.user?.id as number };
 			await dispatch(updateUserPassword(payload)).unwrap();
 
 			router.push({

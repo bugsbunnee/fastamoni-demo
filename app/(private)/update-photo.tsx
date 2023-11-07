@@ -34,12 +34,12 @@ const UpdatePhotoScreen: React.FC = () => {
 
 	const handleSubmit = async (values: FormValues) => {
 		Keyboard.dismiss();
-		const payload = { ...values, userId: auth.user?.id as number };
 
 		try {
+			const payload = { ...values, userId: auth.user?.id as number };
 			const result = await dispatch(updateUserPhoto(payload)).unwrap();
-			const user = { ...(auth.user as User), imageUri: result.data.uri };
 
+			const user = { ...(auth.user as User), imageUri: result.data.uri };
 			dispatch(login(user));
 
 			router.push({
@@ -60,7 +60,7 @@ const UpdatePhotoScreen: React.FC = () => {
 
 				<View style={styles.content}>
 					<View style={styles.addPhotoView}>
-						<Text style={styles.addPhoto}>Add a Photo</Text>
+						<Text style={styles.addPhoto}>Update Your Photo</Text>
 						<Text style={styles.tapText}>
 							Tap the icon below to add a photo to this profile
 						</Text>

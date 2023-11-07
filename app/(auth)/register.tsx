@@ -65,9 +65,8 @@ const RegisterScreen: React.FC = () => {
 	const handleSubmit = async (values: RegisterFormValues) => {
 		Keyboard.dismiss();
 
-		const apiData = _.omit(values, ['confirmPassword']);
-
 		try {
+			const apiData = _.omit(values, ['confirmPassword']);
 			const result = await dispatch(registerUser(apiData)).unwrap();
 			dispatch(login(result.data));
 
