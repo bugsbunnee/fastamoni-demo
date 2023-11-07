@@ -10,10 +10,9 @@ import {
 } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { router } from 'expo-router';
 import { Icon } from '@/utils/models';
 
-import Button from '@/components/themed/Button';
+import BackButton from '@/components/themed/BackButton';
 import Text from '@/components/themed/Text';
 
 import colors from '@/constants/Colors';
@@ -51,8 +50,12 @@ const ThemeSelect: React.FC = () => {
 
 	return (
 		<View style={[styles.container, { backgroundColor: color.background }]}>
+			<View style={styles.spacer}>
+				<BackButton />
+			</View>
+
 			<View style={styles.content}>
-				<Text style={styles.title}>Select a theme</Text>
+				<Text style={styles.title}>Update the App Theme</Text>
 
 				<FlatList
 					data={options}
@@ -89,10 +92,6 @@ const ThemeSelect: React.FC = () => {
 					)}
 				/>
 			</View>
-
-			<View>
-				<Button label="Continue" onPress={() => router.push('/welcome')} />
-			</View>
 		</View>
 	);
 };
@@ -124,6 +123,7 @@ const styles = StyleSheet.create({
 		height: 2,
 		marginVertical: 10,
 	},
+	spacer: { marginTop: 8, marginBottom: 15 },
 	title: {
 		fontSize: 18,
 		marginTop: 15,

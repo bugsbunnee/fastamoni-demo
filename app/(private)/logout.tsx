@@ -12,7 +12,7 @@ const Logout: React.FC = () => {
 	useFocusEffect(() => {
 		dispatch(logout());
 
-		router.replace('/welcome');
+		router.replace('/theme');
 	});
 
 	return <ActivityIndicator isVisible />;

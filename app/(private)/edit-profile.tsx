@@ -2,75 +2,58 @@ import React, { useEffect } from 'react';
 import Constants from 'expo-constants';
 import _ from 'lodash';
 
-import YupPassword from 'yup-password';
-
 import * as yup from 'yup';
 import 'yup-phone-lite';
 
-import { Link, router } from 'expo-router';
+import { router } from 'expo-router';
 import { StyleSheet, View } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import ActivityIndicator from '@/components/themed/ActivityIndicator';
+import BackButton from '@/components/themed/BackButton';
 import Form from '@/components/forms/Form';
 import FormField from '@/components/forms/FormField';
 import SubmitButton from '@/components/forms/SubmitButton';
 import Screen from '@/components/themed/Screen';
-import Text from '@/components/themed/Text';
 
 import { fetchAllCountries } from '@/store/utils/handlers';
 import { getAuth, login } from '@/store/auth';
-import { registerUser } from '@/store/auth/handlers';
+import { editUserProfile } from '@/store/auth/handlers';
 import { getUtils, setDefaultCountry } from '@/store/utils';
 import { useAppDispatch, useAppSelector } from '@/store/configureStore';
 
 import useColor from '@/hooks/useColor';
 
-YupPassword(yup);
-
-interface RegisterFormValues {
+interface EditProfileFormValues {
 	fullName: string;
 	email: string;
 	phoneNumber: string;
-	password: string;
-	confirmPassword: string;
 }
 
 const validationSchema = yup.object().shape({
 	fullName: yup.string().required().label('Full Name'),
 	email: yup.string().email().required().label('Email Address'),
 	phoneNumber: yup.string().phone('NG').required().label('Phone Number'),
-	password: yup
-		.string()
-		.minLowercase(1)
-		.minNumbers(1)
-		.minUppercase(1)
-		.minSymbols(1, 'New Password should contain at least one special character')
-		.min(8)
-		.required()
-		.label('Password'),
-	confirmPassword: yup
-		.string()
-		.oneOf([yup.ref('password')], 'Passwords must match')
-		.required()
-		.label('Confirm New Password'),
 });
 
-const RegisterScreen: React.FC = () => {
+const EditProfileScreen: React.FC = () => {
 	const dispatch = useAppDispatch();
 	const color = useColor();
 
 	const auth = useAppSelector(getAuth);
 	const utils = useAppSelector(getUtils);
 
-	const handleSubmit = async (values: RegisterFormValues) => {
-		const apiData = _.omit(values, ['confirmPassword']);
+	const handleSubmit = async (values: EditProfileFormValues) => {
+		const payload = { ...values, userId: auth.user?.id as number };
 
 		try {
-			const result = await dispatch(registerUser(apiData)).unwrap();
+			const result = await dispatch(editUserProfile(payload)).unwrap();
 			dispatch(login(result.data));
 
-			router.replace('/home');
+			router.push({
+				pathname: '/success',
+				params: { message: 'Your profile was updated successfully!' },
+			});
 		} catch (error) {
 			alert((error as Error).message);
 		}
@@ -97,13 +80,15 @@ const RegisterScreen: React.FC = () => {
 			<ActivityIndicator isVisible={auth.isAuthenticating} />
 
 			<Screen style={[styles.container, { backgroundColor: color.background }]}>
+				<View style={styles.spacer}>
+					<BackButton />
+				</View>
+
 				<Form
 					initialValues={{
-						fullName: '',
-						email: '',
-						password: '',
-						confirmPassword: '',
-						phoneNumber: '',
+						fullName: auth.user?.fullName,
+						email: auth.user?.email,
+						phoneNumber: auth.user?.phoneNumber,
 					}}
 					onSubmit={handleSubmit}
 					validationSchema={validationSchema}
@@ -125,6 +110,8 @@ const RegisterScreen: React.FC = () => {
 								name="email"
 								placeholder="Email Address"
 								keyboardType="email-address"
+								editable={false}
+								tip="Your email is not editable"
 							/>
 
 							<FormField
@@ -134,35 +121,10 @@ const RegisterScreen: React.FC = () => {
 								placeholder="Phone Number"
 								phoneData={utils.defaultCountry ?? undefined}
 							/>
-
-							<FormField
-								autoCapitalize="none"
-								name="password"
-								placeholder="Password"
-								secureTextEntry
-							/>
-
-							<FormField
-								autoCapitalize="none"
-								name="confirmPassword"
-								placeholder="Confirm Password"
-								secureTextEntry
-							/>
 						</View>
 
 						<SubmitButton label="Continue" />
 					</KeyboardAwareScrollView>
-
-					<Link href="/(auth)/login">
-						<View style={styles.loginContainer}>
-							<Text style={styles.loginBlack}>
-								Already have an account?{' '}
-								<Text style={[styles.loginPrimary, { color: color.primary }]}>
-									Login
-								</Text>{' '}
-							</Text>
-						</View>
-					</Link>
 				</Form>
 			</Screen>
 		</>
@@ -176,15 +138,7 @@ const styles = StyleSheet.create({
 		paddingBottom: Constants.statusBarHeight,
 	},
 	flex: { flex: 1 },
-	loginBlack: {
-		fontSize: 15,
-		textAlign: 'center',
-	},
-	loginContainer: { padding: 20 },
-	loginPrimary: {
-		fontSize: 15,
-		textAlign: 'center',
-	},
+	spacer: { marginBottom: 20 },
 });
 
-export default RegisterScreen;
+export default EditProfileScreen;

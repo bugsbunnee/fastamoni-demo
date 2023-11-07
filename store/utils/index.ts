@@ -40,7 +40,7 @@ const utilsSlice = createSlice({
 		});
 		builder.addCase(fetchAllCountries.fulfilled, (utils, action) => {
 			utils.isLoading = false;
-			utils.countries.list = action.payload.data.data;
+			utils.countries.list = action.payload.data;
 		});
 		builder.addCase(fetchAllCountries.rejected, (utils) => {
 			utils.isLoading = false;

@@ -8,13 +8,14 @@ const AuthLayout = () => {
 
 	return (
 		<Stack>
-			<Stack.Screen name="welcome" options={{ headerShown: false }} />
 			<Stack.Screen name="theme" options={{ headerShown: false }} />
+			<Stack.Screen name="welcome" options={{ headerShown: false }} />
 			<Stack.Screen
 				name="login"
 				options={{
 					headerTitle: () => <Text>Login</Text>,
 					headerTintColor: color.text,
+					headerBackTitleVisible: false,
 				}}
 			/>
 			<Stack.Screen
@@ -22,6 +23,7 @@ const AuthLayout = () => {
 				options={{
 					headerTitle: () => <Text>Register</Text>,
 					headerTintColor: color.text,
+					headerBackTitleVisible: false,
 				}}
 			/>
 		</Stack>

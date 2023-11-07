@@ -3,7 +3,7 @@ import Constants from 'expo-constants';
 
 import * as yup from 'yup';
 
-import { router } from 'expo-router';
+import { Link, router } from 'expo-router';
 import { Alert, StyleSheet, View } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
@@ -12,6 +12,7 @@ import Form from '@/components/forms/Form';
 import FormField from '@/components/forms/FormField';
 import SubmitButton from '@/components/forms/SubmitButton';
 import Screen from '@/components/themed/Screen';
+import Text from '@/components/themed/Text';
 
 import { getAuth, login } from '@/store/auth';
 import { loginUser } from '@/store/auth/handlers';
@@ -37,11 +38,11 @@ const LoginScreen: React.FC = () => {
 	const handleSubmit = async (values: LoginFormValues) => {
 		try {
 			const result = await dispatch(loginUser(values)).unwrap();
-			login(result.data.token);
+			dispatch(login(result.data));
 
 			router.replace('/home');
 		} catch (error) {
-			Alert.alert('Error', (error as Error).message);
+			Alert.alert('Error', 'Invalid email or password.');
 		}
 	};
 
@@ -76,6 +77,19 @@ const LoginScreen: React.FC = () => {
 
 						<SubmitButton label="Continue" />
 					</KeyboardAwareScrollView>
+
+					<Link href="/register">
+						<View style={styles.registerContainer}>
+							<Text style={styles.registerBlack}>
+								Don't have an account?{' '}
+								<Text
+									style={[styles.registerPrimary, { color: color.primary }]}
+								>
+									Register
+								</Text>
+							</Text>
+						</View>
+					</Link>
 				</Form>
 			</Screen>
 		</>
@@ -89,6 +103,15 @@ const styles = StyleSheet.create({
 		paddingBottom: Constants.statusBarHeight,
 	},
 	flex: { flex: 1 },
+	registerBlack: {
+		fontSize: 15,
+		textAlign: 'center',
+	},
+	registerContainer: { padding: 20 },
+	registerPrimary: {
+		fontSize: 15,
+		textAlign: 'center',
+	},
 });
 
 export default LoginScreen;

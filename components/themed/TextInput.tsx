@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Image } from 'expo-image';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import {
 	TextInput,
@@ -17,7 +18,6 @@ import ErrorMessage from '../forms/ErrorMessage';
 import Text from './Text';
 
 import useColor from '../../hooks/useColor';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 interface CustomTextInputProps extends TextInputProps {
 	width?: DimensionValue;
@@ -39,7 +39,9 @@ const CustomTextInput: React.FC<CustomTextInputProps> = ({
 	phoneData,
 	...otherProps
 }) => {
+	const [isPasswordVisible, setPasswordVisible] = useState(false);
 	const [isFocused, setIsFocused] = useState(false);
+
 	const color = useColor();
 
 	const getFocusedStyle = () => {
@@ -68,6 +70,38 @@ const CustomTextInput: React.FC<CustomTextInputProps> = ({
 		setIsFocused(true);
 	};
 
+	const renderRightContent = () => {
+		if (otherProps.secureTextEntry) {
+			return (
+				<Pressable onPress={() => setPasswordVisible((prev) => !prev)}>
+					<MaterialCommunityIcons
+						name={isPasswordVisible ? 'eye-check' : 'eye-off'}
+						color={color.text}
+						size={25}
+					/>
+				</Pressable>
+			);
+		}
+
+		if (otherProps.value && otherProps.value.length > 0) {
+			return (
+				<Pressable disabled={!otherProps.editable} onPress={onClearField}>
+					<MaterialCommunityIcons
+						name="close-circle"
+						color={color.text}
+						size={25}
+					/>
+				</Pressable>
+			);
+		}
+
+		return null;
+	};
+
+	useEffect(() => {
+		setPasswordVisible(!!otherProps.secureTextEntry);
+	}, [otherProps.secureTextEntry]);
+
 	return (
 		<View style={[styles.containerMargin, { width }]}>
 			{label && <Text style={styles.label}>{label}</Text>}
@@ -93,19 +127,13 @@ const CustomTextInput: React.FC<CustomTextInputProps> = ({
 					{...otherProps}
 					style={[styles.text, { color: color.text }]}
 					selectionColor={color.tabIconSelected}
+					placeholderTextColor={color.text}
 					onFocus={handleFocus}
 					onBlur={handleBlur}
+					secureTextEntry={isPasswordVisible}
 				/>
 
-				{otherProps.value && otherProps.value.length > 0 ? (
-					<Pressable onPress={onClearField}>
-						<MaterialCommunityIcons
-							name="close-circle"
-							color={color.text}
-							size={25}
-						/>
-					</Pressable>
-				) : null}
+				{renderRightContent()}
 			</View>
 
 			<View style={styles.errorMessageContainer}>
@@ -120,10 +148,10 @@ const CustomTextInput: React.FC<CustomTextInputProps> = ({
 const styles = StyleSheet.create({
 	container: {
 		borderWidth: 1,
-		borderRadius: 8,
+		borderRadius: 5,
 		flexDirection: 'row',
 		paddingVertical: 15,
-		paddingHorizontal: 15,
+		paddingHorizontal: 10,
 		alignItems: 'center',
 	},
 	containerMargin: {

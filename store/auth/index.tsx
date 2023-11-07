@@ -1,16 +1,16 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { jwtDecode } from 'jwt-decode';
-import { AppDispatch, RootState } from '../configureStore';
+import { AppDispatch, RootState } from '@/store/configureStore';
 
-import { User } from '../../utils/models';
-import { loginUser } from './handlers';
+import { AuthState, User } from '@/utils/models';
+import {
+	editUserProfile,
+	loginUser,
+	registerUser,
+	updateUserPassword,
+	updateUserPhoto,
+} from './handlers';
 
-import storage from '../../utils/storage';
-
-interface AuthState {
-	isAuthenticating: boolean;
-	user: User | null;
-}
+import storage from '@/utils/storage';
 
 const initialState: AuthState = {
 	isAuthenticating: false,
@@ -26,13 +26,49 @@ const authSlice = createSlice({
 		},
 	},
 	extraReducers: (builder) => {
-		builder.addCase(loginUser.fulfilled, (auth, action) => {
+		builder.addCase(loginUser.fulfilled, (auth) => {
 			auth.isAuthenticating = false;
 		});
-		builder.addCase(loginUser.rejected, (auth, action) => {
+		builder.addCase(loginUser.rejected, (auth) => {
 			auth.isAuthenticating = false;
 		});
-		builder.addCase(loginUser.pending, (auth, action) => {
+		builder.addCase(loginUser.pending, (auth) => {
+			auth.isAuthenticating = true;
+		});
+		builder.addCase(registerUser.fulfilled, (auth) => {
+			auth.isAuthenticating = false;
+		});
+		builder.addCase(registerUser.rejected, (auth) => {
+			auth.isAuthenticating = false;
+		});
+		builder.addCase(registerUser.pending, (auth) => {
+			auth.isAuthenticating = true;
+		});
+		builder.addCase(updateUserPassword.fulfilled, (auth) => {
+			auth.isAuthenticating = false;
+		});
+		builder.addCase(updateUserPassword.rejected, (auth) => {
+			auth.isAuthenticating = false;
+		});
+		builder.addCase(updateUserPassword.pending, (auth) => {
+			auth.isAuthenticating = true;
+		});
+		builder.addCase(updateUserPhoto.fulfilled, (auth) => {
+			auth.isAuthenticating = false;
+		});
+		builder.addCase(updateUserPhoto.rejected, (auth) => {
+			auth.isAuthenticating = false;
+		});
+		builder.addCase(updateUserPhoto.pending, (auth) => {
+			auth.isAuthenticating = true;
+		});
+		builder.addCase(editUserProfile.fulfilled, (auth) => {
+			auth.isAuthenticating = false;
+		});
+		builder.addCase(editUserProfile.rejected, (auth) => {
+			auth.isAuthenticating = false;
+		});
+		builder.addCase(editUserProfile.pending, (auth) => {
 			auth.isAuthenticating = true;
 		});
 	},
@@ -45,26 +81,18 @@ export const getAuth = (state: RootState) => {
 };
 
 export const retrieveUser = () => async (dispatch: AppDispatch) => {
-	const user = (await storage.getUser()) as User;
+	const user = await storage.getUser();
 	if (user) dispatch(setUser(user));
 };
 
-export const login = (token: string) => (dispatch: AppDispatch) => {
-	storage.storeToken(token);
-
-	console.log(jwtDecode(token));
-	dispatch(setUser(jwtDecode(token)));
+export const login = (user: User) => (dispatch: AppDispatch) => {
+	storage.storeUser(user);
+	dispatch(setUser(user));
 };
 
 export const logout = () => (dispatch: AppDispatch) => {
-	storage.removeToken();
+	storage.removeUser();
 	dispatch(setUser(null));
 };
-
-export const registerUser =
-	(token: string) => async (dispatch: AppDispatch) => {
-		storage.storeToken(token);
-		dispatch(setUser(jwtDecode(token)));
-	};
 
 export default authSlice.reducer;

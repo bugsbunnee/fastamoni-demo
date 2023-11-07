@@ -1,6 +1,9 @@
-import { Slot, SplashScreen, router } from 'expo-router';
 import { useEffect } from 'react';
+import { Appearance } from 'react-native';
+import { Slot, SplashScreen, router } from 'expo-router';
 import { loadAsync } from 'expo-font';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { StatusBar } from 'expo-status-bar';
 
 import { useAppDispatch, useAppSelector } from '@/store/configureStore';
 import { getAuth, retrieveUser } from '@/store/auth';
@@ -17,6 +20,8 @@ const RootLayoutNavigation = () => {
 	const handleLoadAssets = async () => {
 		try {
 			dispatch(retrieveUser());
+			Appearance.setColorScheme('light');
+
 			await loadAsync({
 				SpaceMono: require('@/assets/fonts/SpaceMono-Regular.ttf'),
 			});
@@ -31,9 +36,8 @@ const RootLayoutNavigation = () => {
 		if (utils.isAppReady) {
 			await SplashScreen.hideAsync();
 
-			console.log(auth.user);
 			const nextRoute = auth.user ? '/home' : '/theme';
-			router.push(nextRoute);
+			router.replace(nextRoute);
 		}
 	};
 
@@ -43,13 +47,18 @@ const RootLayoutNavigation = () => {
 
 	useEffect(() => {
 		handleHideSplashScreen();
-	}, [utils.isAppReady, auth.user]);
+	}, [utils.isAppReady]);
 
 	if (!utils.isAppReady) {
 		return <ActivityIndicator isVisible />;
 	}
 
-	return <Slot />;
+	return (
+		<SafeAreaProvider>
+			<Slot />
+			<StatusBar style="auto" />
+		</SafeAreaProvider>
+	);
 };
 
 export default RootLayoutNavigation;

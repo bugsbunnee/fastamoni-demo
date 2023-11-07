@@ -1,31 +1,28 @@
 import * as SecureStore from 'expo-secure-store';
-import { jwtDecode } from 'jwt-decode';
+import { User } from './models';
 
-const key = 'fastmoni_user';
+const key = 'fastamoni_user';
 
-const storeToken = async (token: string) => {
+const storeUser = async (user: User) => {
 	try {
-		await SecureStore.setItemAsync(key, token);
+		await SecureStore.setItemAsync(key, JSON.stringify(user));
 	} catch (error) {
 		console.log('Error storing the user', error);
 	}
 };
 
-const getToken = async (): Promise<string | null> => {
+const getUser = async (): Promise<User | null> => {
 	try {
-		return await SecureStore.getItemAsync(key);
+		const user = await SecureStore.getItemAsync(key);
+		return user ? JSON.parse(user) : null;
 	} catch (error) {
 		console.log('Error retrieving the user details', error);
+
 		return null;
 	}
 };
 
-const getUser = async () => {
-	const token = await getToken();
-	return token ? jwtDecode(token) : null;
-};
-
-const removeToken = async () => {
+const removeUser = async () => {
 	try {
 		await SecureStore.deleteItemAsync(key);
 	} catch (error) {
@@ -33,4 +30,4 @@ const removeToken = async () => {
 	}
 };
 
-export default { getUser, storeToken, removeToken };
+export default { getUser, storeUser, removeUser };
