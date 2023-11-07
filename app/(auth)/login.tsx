@@ -1,6 +1,4 @@
 import React from 'react';
-import Constants from 'expo-constants';
-
 import * as yup from 'yup';
 
 import { Link, router } from 'expo-router';

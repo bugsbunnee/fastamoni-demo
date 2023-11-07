@@ -1,10 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { ColorSchemeName } from 'react-native';
 
-import { RootState } from '../configureStore';
+import { AppDispatch, RootState } from '../configureStore';
 import { fetchAllCountries } from './handlers';
 
 import { CountryData } from '@/utils/models';
-import { ColorSchemeName } from 'react-native';
+import { COUNTRY_CODE } from '@/utils/constants';
 
 interface UtilsState {
 	theme: ColorSchemeName;
@@ -59,5 +60,18 @@ export const { setAppReady, setDefaultCountry, setTheme } = utilsSlice.actions;
 export const getUtils = (state: RootState) => {
 	return state.utils;
 };
+
+export const initializeDefaultCountry =
+	() => async (dispatch: AppDispatch, getState: () => RootState) => {
+		const { utils } = getState();
+
+		const defaultCountry = utils.countries.list.find((country) => {
+			return country.cca2 === COUNTRY_CODE;
+		});
+
+		if (defaultCountry) {
+			dispatch(setDefaultCountry(defaultCountry));
+		}
+	};
 
 export default utilsSlice.reducer;

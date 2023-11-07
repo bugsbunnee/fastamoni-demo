@@ -9,7 +9,6 @@ import { Icon } from '@/utils/models';
 import BackButton from '@/components/themed/BackButton';
 import Text from '@/components/themed/Text';
 
-import colors from '@/constants/Colors';
 import useColor from '@/hooks/useColor';
 
 import { useAppSelector } from '@/store/configureStore';
@@ -109,7 +108,6 @@ const styles = StyleSheet.create({
 	option: {
 		paddingVertical: 10,
 		paddingHorizontal: 20,
-		backgroundColor: colors.dark.background,
 		flexDirection: 'row',
 		alignItems: 'center',
 		borderRadius: 5,

@@ -7,7 +7,7 @@ import Screen from '@/components/themed/Screen';
 import Text from '@/components/themed/Text';
 import ThemeToggle from '@/components/themed/ThemeToggle';
 
-import colors from '@/constants/Colors';
+import colors from '@/utils/colors';
 import useColor from '@/hooks/useColor';
 
 const LoginScreen = () => {

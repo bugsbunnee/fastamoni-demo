@@ -1,23 +1,26 @@
+import _ from 'lodash';
+
 import { createAsyncThunk } from '@reduxjs/toolkit';
+
 import {
 	randAvatar,
 	randFullName,
 	randPhoneNumber,
 	randNumber,
 } from '@ngneat/falso';
+
+import { COUNTRY_CODE, COUNTRY_PHONE_PREFIX } from '@/utils/constants';
+
 import {
 	editProfileAction,
 	loginUserAction,
 	registerUserAction,
 	updatePasswordAction,
 	updatePhotoAction,
-} from './actions';
+} from '@/store/auth/actions';
 
 import { User } from '@/utils/models';
 import client, { setAuthHeader } from '@/utils/api';
-
-import _ from 'lodash';
-import { CountryCode } from '@ngneat/falso/src/lib/country-code';
 
 interface LoginPayload {
 	email: string;
@@ -40,7 +43,9 @@ const loginUser = createAsyncThunk(
 			fullName: randFullName(),
 			imageUri: randAvatar(),
 			email: session.email,
-			phoneNumber: randPhoneNumber({ countryCode: 'NG' }),
+			phoneNumber: randPhoneNumber({ countryCode: COUNTRY_CODE }).split(
+				COUNTRY_PHONE_PREFIX
+			)[1],
 		};
 	}
 );

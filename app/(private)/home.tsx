@@ -34,7 +34,7 @@ const HomeScreen: React.FC = () => {
 	const user = useAppSelector((state) => state.auth.user as User);
 
 	const handlePhoneCall = () => {
-		openURL('tel:+2348142317489');
+		openURL('tel:' + user.phoneNumber);
 	};
 
 	return (
