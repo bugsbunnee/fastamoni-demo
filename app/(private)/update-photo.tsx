@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { Keyboard, StyleSheet, View } from 'react-native';
 import { Link, router } from 'expo-router';
 
 import * as Yup from 'yup';
@@ -30,6 +30,7 @@ const UpdatePhotoScreen: React.FC = () => {
 	const dispatch = useAppDispatch();
 
 	const handleSubmit = async (values: FormValues) => {
+		Keyboard.dismiss();
 		const payload = { ...values, userId: auth.user?.id as number };
 
 		try {

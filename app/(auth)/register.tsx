@@ -8,7 +8,7 @@ import * as yup from 'yup';
 import 'yup-phone-lite';
 
 import { Link, router } from 'expo-router';
-import { StyleSheet, View } from 'react-native';
+import { Keyboard, StyleSheet, View } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import ActivityIndicator from '@/components/themed/ActivityIndicator';
@@ -64,6 +64,8 @@ const RegisterScreen: React.FC = () => {
 	const utils = useAppSelector(getUtils);
 
 	const handleSubmit = async (values: RegisterFormValues) => {
+		Keyboard.dismiss();
+
 		const apiData = _.omit(values, ['confirmPassword']);
 
 		try {
@@ -108,10 +110,7 @@ const RegisterScreen: React.FC = () => {
 					onSubmit={handleSubmit}
 					validationSchema={validationSchema}
 				>
-					<KeyboardAwareScrollView
-						enableOnAndroid
-						contentContainerStyle={styles.flex}
-					>
+					<KeyboardAwareScrollView enableOnAndroid>
 						<View style={styles.flex}>
 							<FormField
 								autoCapitalize="none"
@@ -149,10 +148,9 @@ const RegisterScreen: React.FC = () => {
 								secureTextEntry
 							/>
 						</View>
-
-						<SubmitButton label="Continue" />
 					</KeyboardAwareScrollView>
 
+					<SubmitButton label="Continue" />
 					<Link href="/(auth)/login">
 						<View style={styles.loginContainer}>
 							<Text style={styles.loginBlack}>

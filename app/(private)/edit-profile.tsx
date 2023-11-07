@@ -6,7 +6,7 @@ import * as yup from 'yup';
 import 'yup-phone-lite';
 
 import { router } from 'expo-router';
-import { StyleSheet, View } from 'react-native';
+import { Keyboard, StyleSheet, View } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import ActivityIndicator from '@/components/themed/ActivityIndicator';
@@ -44,6 +44,7 @@ const EditProfileScreen: React.FC = () => {
 	const utils = useAppSelector(getUtils);
 
 	const handleSubmit = async (values: EditProfileFormValues) => {
+		Keyboard.dismiss();
 		const payload = { ...values, userId: auth.user?.id as number };
 
 		try {

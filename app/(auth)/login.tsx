@@ -4,7 +4,7 @@ import Constants from 'expo-constants';
 import * as yup from 'yup';
 
 import { Link, router } from 'expo-router';
-import { Alert, StyleSheet, View } from 'react-native';
+import { Alert, Keyboard, StyleSheet, View } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import ActivityIndicator from '@/components/themed/ActivityIndicator';
@@ -36,6 +36,8 @@ const LoginScreen: React.FC = () => {
 	const color = useColor();
 
 	const handleSubmit = async (values: LoginFormValues) => {
+		Keyboard.dismiss();
+
 		try {
 			const result = await dispatch(loginUser(values)).unwrap();
 			dispatch(login(result.data));

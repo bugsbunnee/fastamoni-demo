@@ -6,7 +6,7 @@ import _ from 'lodash';
 import * as yup from 'yup';
 
 import { router } from 'expo-router';
-import { StyleSheet, View } from 'react-native';
+import { Keyboard, StyleSheet, View } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import ActivityIndicator from '@/components/themed/ActivityIndicator';
@@ -54,6 +54,7 @@ const PasswordUpdateScreen: React.FC = () => {
 	const dispatch = useAppDispatch();
 
 	const handleSubmit = async (values: PasswordFormValues) => {
+		Keyboard.dismiss();
 		const payload = { ...values, userId: auth.user?.id as number };
 
 		try {
