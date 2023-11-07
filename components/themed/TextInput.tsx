@@ -78,7 +78,7 @@ const CustomTextInput: React.FC<CustomTextInputProps> = ({
 					<MaterialCommunityIcons
 						name={isPasswordVisible ? 'eye-check' : 'eye-off'}
 						color={color.text}
-						size={25}
+						size={20}
 					/>
 				</Pressable>
 			);
@@ -90,7 +90,7 @@ const CustomTextInput: React.FC<CustomTextInputProps> = ({
 					<MaterialCommunityIcons
 						name="close-circle"
 						color={color.text}
-						size={25}
+						size={20}
 					/>
 				</Pressable>
 			);
@@ -150,10 +150,10 @@ const CustomTextInput: React.FC<CustomTextInputProps> = ({
 const styles = StyleSheet.create({
 	container: {
 		borderWidth: 1,
-		borderRadius: 5,
+		borderRadius: 50,
 		flexDirection: 'row',
-		paddingVertical: 15,
-		paddingHorizontal: 10,
+		paddingVertical: 10,
+		paddingHorizontal: 15,
 		alignItems: 'center',
 	},
 	containerMargin: {

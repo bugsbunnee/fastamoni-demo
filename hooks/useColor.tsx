@@ -1,12 +1,14 @@
 import { useColorScheme } from 'react-native';
 
 import Colors from '../constants/Colors';
+import { useAppSelector } from '@/store/configureStore';
+import { getUtils } from '@/store/utils';
 
 const useColor = () => {
-	const colorScheme = useColorScheme();
+	const utils = useAppSelector(getUtils);
 
-	if (colorScheme) {
-		return Colors[colorScheme];
+	if (utils.theme) {
+		return Colors[utils.theme];
 	}
 
 	return Colors.light;

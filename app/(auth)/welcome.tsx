@@ -8,11 +8,14 @@ import Text from '@/components/themed/Text';
 import ThemeToggle from '@/components/themed/ThemeToggle';
 
 import colors from '@/constants/Colors';
+import useColor from '@/hooks/useColor';
 
 const LoginScreen = () => {
+	const { background: backgroundColor } = useColor();
+
 	return (
 		<React.Fragment>
-			<Screen style={styles.container}>
+			<Screen style={[styles.container, { backgroundColor }]}>
 				<ThemeToggle />
 
 				<View style={styles.innerContainer}>

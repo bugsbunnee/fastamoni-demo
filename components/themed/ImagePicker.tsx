@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Alert, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { Image } from 'expo-image';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
@@ -25,21 +25,12 @@ const ImageInput = (props: ImageInputProps) => {
 		}
 	};
 
-	const handlePress = () => {
-		if (!props.imageUri) return onImageSelect();
-
-		Alert.alert('Delete', 'Are you sure you want to delete this image?', [
-			{ text: 'Yes', onPress: () => props.onChangeImage(null) },
-			{ text: 'No' },
-		]);
-	};
-
 	useEffect(() => {
 		if (status === null) requestPermission();
 	}, [status]);
 
 	return (
-		<TouchableOpacity onPress={handlePress}>
+		<TouchableOpacity onPress={onImageSelect}>
 			<View style={[styles.container, { backgroundColor: color.tint }]}>
 				{props.imageUri ? (
 					<Image

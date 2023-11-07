@@ -13,13 +13,13 @@ import { openURL } from 'expo-linking';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
 import { Icon, User } from '@/utils/models';
+import { useAppSelector } from '@/store/configureStore';
 
+import ImagePreview from '@/components/themed/ImagePreview';
 import ProfileButton from '@/components/themed/ProfileButton';
 import Text from '@/components/themed/Text';
 
 import useColor from '@/hooks/useColor';
-import { useAppSelector } from '@/store/configureStore';
-import ImagePreview from '@/components/themed/ImagePreview';
 
 interface Setting {
 	route: any;
@@ -38,7 +38,7 @@ const HomeScreen: React.FC = () => {
 	};
 
 	return (
-		<View style={styles.container}>
+		<View style={[styles.container, { backgroundColor: color.background }]}>
 			<ImagePreview
 				imageUri={imageUriPreview}
 				onClosePreview={() => setImageUriPreview(null)}
@@ -109,11 +109,13 @@ const HomeScreen: React.FC = () => {
 				<View style={styles.spacer}>
 					<Text style={styles.sectionTitle}>App</Text>
 
-					<ProfileButton
-						onPress={() => router.push('/theme-update')}
-						label="Change Theme"
-						icon="theme-light-dark"
-					/>
+					<View style={styles.section}>
+						<ProfileButton
+							onPress={() => router.push('/theme-update')}
+							label="Change Theme"
+							icon="theme-light-dark"
+						/>
+					</View>
 				</View>
 			</ScrollView>
 

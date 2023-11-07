@@ -17,6 +17,8 @@ import Text from '@/components/themed/Text';
 import Screen from '@/components/themed/Screen';
 import SubmitButton from '@/components/forms/SubmitButton';
 
+import useColor from '@/hooks/useColor';
+
 interface FormValues {
 	uri: string;
 }
@@ -28,6 +30,7 @@ const validationSchema = Yup.object().shape({
 const UpdatePhotoScreen: React.FC = () => {
 	const auth = useAppSelector(getAuth);
 	const dispatch = useAppDispatch();
+	const color = useColor();
 
 	const handleSubmit = async (values: FormValues) => {
 		Keyboard.dismiss();
@@ -49,7 +52,7 @@ const UpdatePhotoScreen: React.FC = () => {
 	};
 
 	return (
-		<Screen>
+		<Screen style={{ backgroundColor: color.background }}>
 			<ActivityIndicator isVisible={auth.isAuthenticating} />
 
 			<View style={styles.container}>
@@ -97,7 +100,12 @@ const styles = StyleSheet.create({
 		paddingVertical: 10,
 	},
 	addPhotoView: { marginVertical: 30 },
-	buttons: { flex: 1, justifyContent: 'flex-end', width: '100%' },
+	buttons: {
+		flex: 1,
+		justifyContent: 'flex-end',
+		alignItems: 'center',
+		width: '100%',
+	},
 	content: {
 		flex: 1,
 		alignItems: 'center',

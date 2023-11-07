@@ -1,5 +1,10 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { faker } from '@faker-js/faker';
+import {
+	randAvatar,
+	randFullName,
+	randPhoneNumber,
+	randNumber,
+} from '@ngneat/falso';
 import {
 	editProfileAction,
 	loginUserAction,
@@ -12,6 +17,7 @@ import { User } from '@/utils/models';
 import client, { setAuthHeader } from '@/utils/api';
 
 import _ from 'lodash';
+import { CountryCode } from '@ngneat/falso/src/lib/country-code';
 
 interface LoginPayload {
 	email: string;
@@ -30,11 +36,11 @@ const loginUser = createAsyncThunk(
 		setAuthHeader(result.data.token);
 
 		return {
-			id: 1,
-			fullName: faker.person.fullName(),
-			imageUri: faker.image.avatar(),
+			id: randNumber(),
+			fullName: randFullName(),
+			imageUri: randAvatar(),
 			email: session.email,
-			phoneNumber: faker.phone.number(),
+			phoneNumber: randPhoneNumber({ countryCode: 'NG' }),
 		};
 	}
 );

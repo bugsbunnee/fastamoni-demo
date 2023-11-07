@@ -9,6 +9,7 @@ const AuthLayout: React.FC = () => {
 	const color = useColor();
 
 	const visibleHeaderOptions = {
+		headerStyle: { backgroundColor: color.background },
 		headerTintColor: color.text,
 		headerBackTitleVisible: false,
 		headerTitle: (props: { children: string }) => (

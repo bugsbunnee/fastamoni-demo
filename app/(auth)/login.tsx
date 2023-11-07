@@ -58,10 +58,7 @@ const LoginScreen: React.FC = () => {
 					onSubmit={handleSubmit}
 					validationSchema={validationSchema}
 				>
-					<KeyboardAwareScrollView
-						enableOnAndroid
-						contentContainerStyle={styles.flex}
-					>
+					<KeyboardAwareScrollView enableOnAndroid>
 						<View style={styles.flex}>
 							<FormField
 								autoCapitalize="none"
@@ -76,9 +73,9 @@ const LoginScreen: React.FC = () => {
 								secureTextEntry
 							/>
 						</View>
-
-						<SubmitButton label="Continue" />
 					</KeyboardAwareScrollView>
+
+					<SubmitButton label="Continue" />
 
 					<Link href="/register">
 						<View style={styles.registerContainer}>
@@ -101,8 +98,7 @@ const LoginScreen: React.FC = () => {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		padding: 20,
-		paddingBottom: Constants.statusBarHeight,
+		padding: 10,
 	},
 	flex: { flex: 1 },
 	registerBlack: {

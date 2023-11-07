@@ -4,8 +4,10 @@ import { RootState } from '../configureStore';
 import { fetchAllCountries } from './handlers';
 
 import { CountryData } from '@/utils/models';
+import { ColorSchemeName } from 'react-native';
 
 interface UtilsState {
+	theme: ColorSchemeName;
 	isAppReady: boolean;
 	isLoading: boolean;
 	defaultCountry: CountryData | null;
@@ -15,6 +17,7 @@ interface UtilsState {
 }
 
 const initialState: UtilsState = {
+	theme: null,
 	isAppReady: false,
 	isLoading: false,
 	defaultCountry: null,
@@ -27,6 +30,9 @@ const utilsSlice = createSlice({
 	name: 'utils',
 	initialState,
 	reducers: {
+		setTheme: (utils, action) => {
+			utils.theme = action.payload;
+		},
 		setAppReady: (utils, action: PayloadAction<boolean>) => {
 			utils.isAppReady = action.payload;
 		},
@@ -48,7 +54,7 @@ const utilsSlice = createSlice({
 	},
 });
 
-export const { setAppReady, setDefaultCountry } = utilsSlice.actions;
+export const { setAppReady, setDefaultCountry, setTheme } = utilsSlice.actions;
 
 export const getUtils = (state: RootState) => {
 	return state.utils;

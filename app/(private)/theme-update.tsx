@@ -1,13 +1,7 @@
 import React from 'react';
 import Constants from 'expo-constants';
 
-import {
-	Appearance,
-	FlatList,
-	StyleSheet,
-	View,
-	useColorScheme,
-} from 'react-native';
+import { FlatList, StyleSheet, View } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Icon } from '@/utils/models';
@@ -18,6 +12,10 @@ import Text from '@/components/themed/Text';
 import colors from '@/constants/Colors';
 import useColor from '@/hooks/useColor';
 
+import { useAppSelector } from '@/store/configureStore';
+import { getUtils, setTheme } from '@/store/utils';
+import { useAppDispatch } from '../../store/configureStore';
+
 interface ThemeOption {
 	mode: 'light' | 'dark';
 	icon: Icon;
@@ -26,7 +24,8 @@ interface ThemeOption {
 }
 
 const ThemeSelect: React.FC = () => {
-	const colorScheme = useColorScheme();
+	const utils = useAppSelector(getUtils);
+	const dispatch = useAppDispatch();
 	const color = useColor();
 
 	const options: ThemeOption[] = [
@@ -45,7 +44,7 @@ const ThemeSelect: React.FC = () => {
 	];
 
 	const handleClick = (item: ThemeOption) => {
-		Appearance.setColorScheme(item.mode);
+		dispatch(setTheme(item.mode));
 	};
 
 	return (
@@ -81,7 +80,7 @@ const ThemeSelect: React.FC = () => {
 								</Text>
 							</View>
 
-							{item.mode === colorScheme ? (
+							{item.mode === utils.theme ? (
 								<MaterialCommunityIcons
 									name="check-circle"
 									color={color.text}

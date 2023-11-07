@@ -10,7 +10,7 @@ import Text from '@/components/themed/Text';
 import useColor from '@/hooks/useColor';
 
 const Success = () => {
-	const { background } = useColor();
+	const { background: backgroundColor } = useColor();
 	const { message } = useLocalSearchParams();
 
 	const handleNavigateHome = () => {
@@ -18,7 +18,7 @@ const Success = () => {
 	};
 
 	return (
-		<View style={[styles.container, { backgroundColor: background }]}>
+		<View style={[styles.container, { backgroundColor }]}>
 			<AnimatedLottieView
 				autoPlay
 				loop
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
 		padding: 20,
 	},
 	image: {
-		width: '80%',
+		width: 100,
 		alignItems: 'center',
 		justifyContent: 'center',
 	},

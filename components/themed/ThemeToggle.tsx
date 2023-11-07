@@ -1,21 +1,20 @@
 import React from 'react';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-import {
-	Appearance,
-	StyleSheet,
-	TouchableOpacity,
-	useColorScheme,
-} from 'react-native';
+import { StyleSheet, TouchableOpacity } from 'react-native';
+
+import { useAppDispatch, useAppSelector } from '@/store/configureStore';
+import { getUtils, setTheme } from '@/store/utils';
 
 import useColor from '@/hooks/useColor';
 
 const ThemeToggle: React.FC = () => {
-	const colorScheme = useColorScheme();
+	const utils = useAppSelector(getUtils);
+	const dispatch = useAppDispatch();
 	const color = useColor();
 
 	const handleThemeToggle = () => {
-		Appearance.setColorScheme(colorScheme === 'light' ? 'dark' : 'light');
+		dispatch(setTheme(utils.theme === 'light' ? 'dark' : 'light'));
 	};
 
 	return (
@@ -27,7 +26,7 @@ const ThemeToggle: React.FC = () => {
 				size={30}
 				color={color.text}
 				name={
-					colorScheme === 'light'
+					utils.theme === 'light'
 						? 'white-balance-sunny'
 						: 'moon-waning-gibbous'
 				}

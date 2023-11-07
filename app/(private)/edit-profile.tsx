@@ -94,10 +94,7 @@ const EditProfileScreen: React.FC = () => {
 					onSubmit={handleSubmit}
 					validationSchema={validationSchema}
 				>
-					<KeyboardAwareScrollView
-						enableOnAndroid
-						contentContainerStyle={styles.flex}
-					>
+					<KeyboardAwareScrollView enableOnAndroid>
 						<View style={styles.flex}>
 							<FormField
 								autoCapitalize="none"
@@ -123,9 +120,9 @@ const EditProfileScreen: React.FC = () => {
 								phoneData={utils.defaultCountry ?? undefined}
 							/>
 						</View>
-
-						<SubmitButton label="Continue" />
 					</KeyboardAwareScrollView>
+
+					<SubmitButton label="Continue" />
 				</Form>
 			</Screen>
 		</>
@@ -135,7 +132,7 @@ const EditProfileScreen: React.FC = () => {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		padding: 20,
+		padding: 10,
 		paddingBottom: Constants.statusBarHeight,
 	},
 	flex: { flex: 1 },

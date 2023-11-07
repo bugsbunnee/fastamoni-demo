@@ -123,8 +123,7 @@ const PasswordUpdateScreen: React.FC = () => {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		padding: 20,
-		paddingBottom: Constants.statusBarHeight,
+		padding: 10,
 	},
 	content: {
 		flex: 1,

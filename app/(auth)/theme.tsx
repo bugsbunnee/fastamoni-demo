@@ -1,22 +1,17 @@
 import React from 'react';
 import Constants from 'expo-constants';
 
-import {
-	Appearance,
-	FlatList,
-	StyleSheet,
-	View,
-	useColorScheme,
-} from 'react-native';
+import { FlatList, StyleSheet, View } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { Icon } from '@/utils/models';
+import { getUtils, setTheme } from '@/store/utils';
+import { useAppDispatch, useAppSelector } from '@/store/configureStore';
 
 import Button from '@/components/themed/Button';
 import Text from '@/components/themed/Text';
 
-import colors from '@/constants/Colors';
 import useColor from '@/hooks/useColor';
 
 interface ThemeOption {
@@ -27,8 +22,9 @@ interface ThemeOption {
 }
 
 const ThemeSelect: React.FC = () => {
-	const colorScheme = useColorScheme();
 	const color = useColor();
+	const dispatch = useAppDispatch();
+	const utils = useAppSelector(getUtils);
 
 	const options: ThemeOption[] = [
 		{
@@ -46,7 +42,7 @@ const ThemeSelect: React.FC = () => {
 	];
 
 	const handleClick = (item: ThemeOption) => {
-		Appearance.setColorScheme(item.mode);
+		dispatch(setTheme(item.mode));
 	};
 
 	return (
@@ -78,7 +74,7 @@ const ThemeSelect: React.FC = () => {
 								</Text>
 							</View>
 
-							{item.mode === colorScheme ? (
+							{item.mode === utils.theme ? (
 								<MaterialCommunityIcons
 									name="check-circle"
 									color={color.text}
@@ -100,7 +96,6 @@ const ThemeSelect: React.FC = () => {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: '#121212',
 		paddingHorizontal: 20,
 		paddingVertical: Constants.statusBarHeight,
 	},
@@ -111,14 +106,13 @@ const styles = StyleSheet.create({
 	option: {
 		paddingVertical: 10,
 		paddingHorizontal: 20,
-		backgroundColor: colors.dark.background,
 		flexDirection: 'row',
 		alignItems: 'center',
 		borderRadius: 5,
 	},
 	optionDetails: { flex: 1, marginLeft: 20 },
-	optionSubtitle: { color: 'white', fontSize: 13 },
-	optionTitle: { color: 'white', textTransform: 'capitalize' },
+	optionSubtitle: { fontSize: 13 },
+	optionTitle: { textTransform: 'capitalize' },
 	separator: {
 		width: '100%',
 		height: 2,

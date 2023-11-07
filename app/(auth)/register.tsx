@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import Constants from 'expo-constants';
 import _ from 'lodash';
 
 import YupPassword from 'yup-password';
@@ -170,8 +169,7 @@ const RegisterScreen: React.FC = () => {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		padding: 20,
-		paddingBottom: Constants.statusBarHeight,
+		padding: 10,
 	},
 	flex: { flex: 1 },
 	loginBlack: {
