@@ -2,7 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { getAllCountries } from './actions';
 import { CountryData } from '@/utils/models';
 
-import client from '@/api/client';
+import client from '@/utils/api';
 
 const fetchAllCountries = createAsyncThunk(getAllCountries.type, () => {
 	const apiUrl = process.env.EXPO_PUBLIC_COUNTRIES_URL;

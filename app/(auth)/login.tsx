@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import Constants from 'expo-constants';
 
 import * as yup from 'yup';
@@ -39,8 +39,8 @@ const LoginScreen: React.FC = () => {
 		Keyboard.dismiss();
 
 		try {
-			const result = await dispatch(loginUser(values)).unwrap();
-			dispatch(login(result.data));
+			const user = await dispatch(loginUser(values)).unwrap();
+			dispatch(login(user));
 
 			router.replace('/home');
 		} catch (error) {

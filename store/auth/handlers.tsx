@@ -1,4 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import { faker } from '@faker-js/faker';
 import {
 	editProfileAction,
 	loginUserAction,
@@ -8,8 +9,8 @@ import {
 } from './actions';
 
 import { User } from '@/utils/models';
+import client, { setAuthHeader } from '@/utils/api';
 
-import client from '@/api/client';
 import _ from 'lodash';
 
 interface LoginPayload {
@@ -17,10 +18,24 @@ interface LoginPayload {
 	password: string;
 }
 
+interface LoginResponse {
+	token: string;
+}
+
 const loginUser = createAsyncThunk(
 	loginUserAction.type,
 	async (session: LoginPayload) => {
-		return client.post<User>('/api/users?delay=3', session);
+		// Here, i mock a user response since the login only returns a token that can't be decoded.
+		const result = await client.post<LoginResponse>('/api/login', session);
+		setAuthHeader(result.data.token);
+
+		return {
+			id: 1,
+			fullName: faker.person.fullName(),
+			imageUri: faker.image.avatar(),
+			email: session.email,
+			phoneNumber: faker.phone.number(),
+		};
 	}
 );
 

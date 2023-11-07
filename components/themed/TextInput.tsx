@@ -37,6 +37,7 @@ const CustomTextInput: React.FC<CustomTextInputProps> = ({
 	onFocus,
 	onClearField,
 	phoneData,
+	editable = true,
 	...otherProps
 }) => {
 	const [isPasswordVisible, setPasswordVisible] = useState(false);
@@ -83,9 +84,9 @@ const CustomTextInput: React.FC<CustomTextInputProps> = ({
 			);
 		}
 
-		if (otherProps.value && otherProps.value.length > 0) {
+		if (editable && otherProps.value && otherProps.value.length > 0) {
 			return (
-				<Pressable disabled={!otherProps.editable} onPress={onClearField}>
+				<Pressable onPress={onClearField}>
 					<MaterialCommunityIcons
 						name="close-circle"
 						color={color.text}
@@ -130,6 +131,7 @@ const CustomTextInput: React.FC<CustomTextInputProps> = ({
 					placeholderTextColor={color.text}
 					onFocus={handleFocus}
 					onBlur={handleBlur}
+					editable={editable}
 					secureTextEntry={isPasswordVisible}
 				/>
 
