@@ -19,7 +19,7 @@ import Screen from '@/components/themed/Screen';
 import { fetchAllCountries } from '@/store/utils/handlers';
 import { getAuth, login } from '@/store/auth';
 import { editUserProfile } from '@/store/auth/handlers';
-import { getUtils, setDefaultCountry } from '@/store/utils';
+import { getUtils, initializeDefaultCountry } from '@/store/utils';
 import { useAppDispatch, useAppSelector } from '@/store/configureStore';
 
 import useColor from '@/hooks/useColor';
@@ -45,9 +45,9 @@ const EditProfileScreen: React.FC = () => {
 
 	const handleSubmit = async (values: EditProfileFormValues) => {
 		Keyboard.dismiss();
-		const payload = { ...values, userId: auth.user?.id as number };
 
 		try {
+			const payload = { ...values, userId: auth.user?.id as number };
 			const result = await dispatch(editUserProfile(payload)).unwrap();
 			dispatch(login(result.data));
 
@@ -65,15 +65,7 @@ const EditProfileScreen: React.FC = () => {
 	}, []);
 
 	useEffect(() => {
-		if (utils.countries.list.length > 0) {
-			const defaultCountry = utils.countries.list.find((country) => {
-				return country.cca2 === process.env.EXPO_PUBLIC_COUNTRY_CODE;
-			});
-
-			if (defaultCountry) {
-				dispatch(setDefaultCountry(defaultCountry));
-			}
-		}
+		dispatch(initializeDefaultCountry());
 	}, [utils.countries.list]);
 
 	return (
