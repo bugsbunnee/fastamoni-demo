@@ -1,18 +1,39 @@
 {
-  "cli": {
-    "version": ">= 5.6.0"
-  },
-  "build": {
-    "development": {
-      "developmentClient": true,
-      "distribution": "internal"
-    },
-    "preview": {
-      "distribution": "internal"
-    },
-    "production": {}
-  },
-  "submit": {
-    "production": {}
-  }
+	"build": {
+		"preview": {
+			"android": {
+				"buildType": "apk"
+			},
+			"env": {
+				"EXPO_PUBLIC_API_URL": "https://reqres.in",
+				"EXPO_PUBLIC_COUNTRIES_URL": "https://restcountries.com/v3.1/all?fields=name,flags,idd,cca2"
+			},
+			"channel": "preview"
+		},
+		"preview2": {
+			"android": {
+				"gradleCommand": ":app:assembleRelease"
+			},
+			"env": {
+				"EXPO_PUBLIC_API_URL": "https://reqres.in",
+				"EXPO_PUBLIC_COUNTRIES_URL": "https://restcountries.com/v3.1/all?fields=name,flags,idd,cca2"
+			},
+			"channel": "preview2"
+		},
+		"preview3": {
+			"developmentClient": true,
+			"channel": "preview3",
+			"env": {
+				"EXPO_PUBLIC_API_URL": "https://reqres.in",
+				"EXPO_PUBLIC_COUNTRIES_URL": "https://restcountries.com/v3.1/all?fields=name,flags,idd,cca2"
+			}
+		},
+		"production": {
+			"channel": "production",
+			"env": {
+				"EXPO_PUBLIC_API_URL": "https://reqres.in",
+				"EXPO_PUBLIC_COUNTRIES_URL": "https://restcountries.com/v3.1/all?fields=name,flags,idd,cca2"
+			}
+		}
+	}
 }

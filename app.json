@@ -48,7 +48,12 @@
 			"policy": "appVersion"
 		},
 		"updates": {
-			"url": "https://u.expo.dev/e287ef97-ef5b-4e4b-97cf-37f285e78baa"
+			"url": "https://u.expo.dev/e287ef97-ef5b-4e4b-97cf-37f285e78baa",
+			"requestHeaders": {
+				"expo-channel-name": "preview",
+				"expo-runtime-version": "1.0.0",
+				"expo-platform": "android"
+			}
 		}
 	}
 }
